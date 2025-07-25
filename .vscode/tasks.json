@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build play_greedy_ai",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				".",
+				"&&",
+				"make",
+				"play_greedy_ai"
+			],
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			]
+		}
+	]
+}

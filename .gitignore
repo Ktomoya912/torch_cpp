@@ -1,0 +1,9 @@
+# dataディレクトリ配下を無視
+/data/*
+
+# binディレクトリ配下を無視
+/bin/*
+
+# CMakeLists.txt以外のtxtファイルを無視
+*.txt
+!CMakeLists.txt
