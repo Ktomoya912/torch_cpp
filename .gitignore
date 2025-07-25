@@ -7,3 +7,5 @@
 # CMakeLists.txt以外のtxtファイルを無視
 *.txt
 !CMakeLists.txt
+
+/CMakeFiles/*
