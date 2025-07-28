@@ -103,7 +103,7 @@ double move_expand(const state_t &state, int depth) {
 double input_expand(const state_t &state, int depth) {
   int index = to_index(state.board);
   // printf("At depth %d (input_expand): id = %d\n", depth, index);
-  if (um[depth].contains(index)) {
+  if (um[depth].find(index) != um[depth].end()) {
     // printf("cache hit: returing %f\n", um[depth][index]);
     exp_count++;
     return um[depth][index];

@@ -12,6 +12,9 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+// #include "../head/Game2048_3_3.h"
+// #include "../head/NN_AI.h"
+// #include "../head/expmax.h"
 #include "Game2048_3_3.h"
 #include "NN_AI.h"
 #include "expmax.h"
@@ -47,8 +50,8 @@ int main(int argc, char** argv) {
   
   int seed = atoi(argv[1]);
   int game_count = atoi(argv[2]);
-  char* model_file = argv[3];
-  int number_of_depth = atoi(argv[4]);
+  int number_of_depth = atoi(argv[3]);
+  char* model_file = argv[4];
   
   // AIを初期化
   try {
@@ -80,7 +83,7 @@ int main(int argc, char** argv) {
       turn++;
       state_t copy;
       double max_evr = -DBL_MAX;
-      int selected = -1;
+      // int selected = -1;
       const int n = 5;
       double evals[4];
       int selected = expectimax(state, number_of_depth,evals);
