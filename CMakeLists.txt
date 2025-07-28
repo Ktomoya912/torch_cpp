@@ -43,11 +43,23 @@ set_target_properties(mcts_nn PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
+# NN AI版 Expectimax
+add_executable(exp_nn play/play_exp.cpp head/NN_AI.cpp)
+target_link_libraries(exp_nn ${TORCH_LIBRARIES} ${ZLIB_LIBRARIES})
+target_compile_options(exp_nn PRIVATE -mcmodel=large -O3)
+set_property(TARGET exp_nn PROPERTY CXX_STANDARD 17)
+set_target_properties(exp_nn PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
 # 実行ファイルの出力先を設定
 set_target_properties(play_greedy_nn PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 set_target_properties(mcts_nn PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+set_target_properties(exp_nn PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 

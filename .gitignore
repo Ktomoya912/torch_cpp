@@ -10,6 +10,10 @@
 
 /CMakeFiles/*
 
+# LibTorch downloaded files
+libtorch/
+libtorch-*.zip
+
 # Python-generated files
 __pycache__/
 *.py[oc]
@@ -18,4 +22,4 @@ dist/
 wheels/
 *.egg-info
 
-libtorch/
+models/*
