@@ -109,11 +109,7 @@ double input_expand(const state_t &state, int depth) {
     return um[depth][index];
   }
   if (depth == 0) {
-      if (tuple_num == 4) {
-       um[depth][index] =  NT4::calcEv(state.board);
-      } else {
-        um[depth][index] = NT6::calcEv(state.board);
-      }
+    um[depth][index] = calcEvAI(state.board);
     // printf("leaf: reurning %f\n", um[depth][index]);
     exp_count++;
     return um[depth][index];
