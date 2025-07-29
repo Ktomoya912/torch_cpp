@@ -8,6 +8,9 @@
 #include <iostream>
 #include <list>
 #include <random>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
 
 namespace fs = std::filesystem;
 using namespace std;
@@ -40,6 +43,17 @@ int progress_calculation(int board[9]) {
     }
   }
   return sum / 2;
+}
+
+string getCurrentTimeString() {
+  auto now = chrono::system_clock::now();
+  auto time_t = chrono::system_clock::to_time_t(now);
+  auto ms = chrono::duration_cast<chrono::milliseconds>(now.time_since_epoch()) % 1000;
+  
+  stringstream ss;
+  ss << put_time(localtime(&time_t), "%Y-%m-%d %H:%M:%S");
+  ss << "." << setfill('0') << setw(3) << ms.count();
+  return ss.str();
 }
 
 string parseFileName(const char *filename)
@@ -130,6 +144,10 @@ int main(int argc, char** argv) {
           array<int, 9>{state.board[0], state.board[1], state.board[2],
                         state.board[3], state.board[4], state.board[5],
                         state.board[6], state.board[7], state.board[8]});
+      if (gid == 1) {
+        printf("[%s] Game %d, Turn %d, Move: %d, Eval: %.2f, %.2f, %.2f, %.2f\n",
+          getCurrentTimeString().c_str(), gid, turn, selected, evals[0], evals[1], evals[2], evals[3]);
+      }
       
       // 選択した行動を実行
       play(selected, state, &state);

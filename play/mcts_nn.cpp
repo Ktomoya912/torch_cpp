@@ -10,6 +10,8 @@
 #include <list>
 #include <random>
 #include <thread>
+#include <chrono>
+#include <sstream>
 
 #include "Game2048_3_3.h"
 using namespace std;
@@ -44,6 +46,17 @@ int progress_calculation(int board[9])
     }
   }
   return sum / 2;
+}
+
+string getCurrentTimeString() {
+  auto now = chrono::system_clock::now();
+  auto time_t = chrono::system_clock::to_time_t(now);
+  auto ms = chrono::duration_cast<chrono::milliseconds>(now.time_since_epoch()) % 1000;
+  
+  stringstream ss;
+  ss << put_time(localtime(&time_t), "%Y-%m-%d %H:%M:%S");
+  ss << "." << setfill('0') << setw(3) << ms.count();
+  return ss.str();
 }
 
 string parseFileName(const char *filename)
@@ -120,7 +133,10 @@ int main(int argc, char **argv)
       // printf("Game %d, Turn %d\n", gid, turn);
       array<double, 5> evals = {-1e10, -1e10, -1e10, -1e10, 0.0};
       int move = mcts_searcher.search(state, evals); // search内でcalcEvAIを使う
-
+      if (gid == 1) {
+        printf("[%s] Game %d, Turn %d, Move: %d, Eval: %.2f, %.2f, %.2f, %.2f, Progress: %.2f\n",
+          getCurrentTimeString().c_str(), gid, turn, move, evals[0], evals[1], evals[2], evals[3], evals[4]);
+      }
       state_t nextstate;
       bool result = play(move, state, &nextstate);
       assert(result);

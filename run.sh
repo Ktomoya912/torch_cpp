@@ -14,7 +14,7 @@ MODEL_DIR="$(pwd)/models"
 # 例: MODEL_NUMBERS=(2 3)          # 2, 3番のみ実行  
 # 例: MODEL_NUMBERS=(1)            # 1番のみ実行
 # 例: MODEL_NUMBERS=(1 3 5)        # 1, 3, 5番を実行
-MODEL_NUMBERS=(1 2 3) # ここを編集して使用したい番号を指定
+MODEL_NUMBERS=(1 3 2) # ここを編集して使用したい番号を指定
 
 echo "=== Starting model evaluation ==="
 echo "Model prefix: $MODEL_PREFIX"
@@ -51,8 +51,11 @@ for i in "${MODEL_NUMBERS[@]}"; do
     PIDS+=($EXP_PID)
     echo "    EXP NN PID: $EXP_PID"
     
-    # 少し待機（システム負荷を考慮）
-    sleep 2
+    echo "Waiting for MCTS and EXP processes to finish..."
+    # MCTS_PIDとEXP_PIDが終了するまで待つ
+    wait $MCTS_PID
+    wait $EXP_PID
+    echo "Finished evaluation for $MODEL_PREFIX-$i.pt"
 done
 
 echo ""
