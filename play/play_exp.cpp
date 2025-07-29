@@ -42,6 +42,25 @@ int progress_calculation(int board[9]) {
   return sum / 2;
 }
 
+string parseFileName(const char *filename)
+{
+
+  char basename[256];
+  strcpy(basename, filename);
+
+  // ファイルパスから最後の'/'以降を取得
+  char *last_slash = strrchr(basename, '/');
+  char *actual_name = last_slash ? last_slash + 1 : basename;
+
+  // .zip 拡張子を削除
+  char *ext = strstr(actual_name, ".pt");
+  if (ext)
+  {
+    *ext = '\0'; // 拡張子を削除
+  }
+  return actual_name;
+}
+
 int main(int argc, char** argv) {
   if (argc < 4) {
     fprintf(stderr, "Usage: play_greedy_test <seed> <game_counts> <number_of_depth> <model_file>\n");
@@ -61,9 +80,10 @@ int main(int argc, char** argv) {
     exit(1);
   }
   
+  string parsed = parseFileName(model_file);
   // 出力ディレクトリの作成
   fs::create_directory("../board_data");
-  string dir = "../board_data/AI_test_seed" + to_string(seed) + "/";
+  string dir = "../board_data/exp-" + parsed + "_" + to_string(seed) + "/";
   fs::create_directory(dir);
   
   srand(seed);

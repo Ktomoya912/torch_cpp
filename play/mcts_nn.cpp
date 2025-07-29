@@ -98,7 +98,7 @@ int main(int argc, char **argv)
   string parsed = parseFileName(model_file);
   fs::create_directory("../board_data");
 
-  string dir = "../board_data/" + parsed + "_" + to_string(seed) + "/";
+  string dir = "../board_data/mcts-" + parsed + "_" + to_string(seed) + "/";
   fs::create_directory(dir);
 
   srand(seed);
