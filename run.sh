@@ -1,5 +1,3 @@
-
-
 #!/bin/bash
 # 使用方法: ./run.sh [モデル名プレフィックス]
 # 例: ./run.sh TDA
@@ -8,6 +6,7 @@
 # デフォルト値
 MODEL_PREFIX=${1:-"TDA"}
 MODEL_DIR="$(pwd)/models"
+RUN_SEED=${2:-1}
 
 # 評価するモデル番号の配列（ここを編集して使用したい番号を指定）
 # 例: MODEL_NUMBERS=(1 2 3)        # 1, 2, 3番を実行
@@ -39,14 +38,14 @@ for i in "${MODEL_NUMBERS[@]}"; do
     
     # MCTS NN実行
     echo "  - Starting MCTS NN for $MODEL_PREFIX-$i.pt"
-    nohup ./mcts_nn 1 1000 "$MODEL_FILE" 400 0 1 1000 0 1 0 > "mcts_nn_${MODEL_PREFIX}_$i.log" 2>&1 &
+    nohup ./mcts_nn "$RUN_SEED" 1000 "$MODEL_FILE" 400 0 1 1000 0 1 0 > "mcts_nn_${MODEL_PREFIX}_$i.log" 2>&1 &
     MCTS_PID=$!
     PIDS+=($MCTS_PID)
     echo "    MCTS NN PID: $MCTS_PID"
     
     # EXP NN実行
     echo "  - Starting EXP NN for $MODEL_PREFIX-$i.pt"
-    nohup ./exp_nn 1 1000 3 "$MODEL_FILE" > "exp_nn_${MODEL_PREFIX}_$i.log" 2>&1 &
+    nohup ./exp_nn "$RUN_SEED" 1000 3 "$MODEL_FILE" > "exp_nn_${MODEL_PREFIX}_$i.log" 2>&1 &
     EXP_PID=$!
     PIDS+=($EXP_PID)
     echo "    EXP NN PID: $EXP_PID"
